@@ -1,7 +1,7 @@
 /*
-    Arcabou√ßo para desenvolvimento do trabalho da disciplina de AEDSII 2020-1, utilizando os exemplos dos livros
-    de Schildt, H. C Completo e Total. Ed. McGraw-Hill e de Ferraz, I. N. Programa√ß√£o com Arquivos. Editora Manole Ltda
-      sobre o problema de funcion√°rios e algoritmos.
+    ArcabouÁo para desenvolvimento do trabalho da disciplina de AEDSII 2020-1, utilizando os exemplos dos livros
+    de Schildt, H. C Completo e Total. Ed. McGraw-Hill e de Ferraz, I. N. ProgramaÁ„o com Arquivos. Editora Manole Ltda
+      sobre o problema de funcion·rios e algoritmos.
 */
 
 #include <stdlib.h>
@@ -20,18 +20,18 @@ int menu()
 
     printf("\nDigite 1 para utilizar a base de dados funcionario de teste.");
     printf("\nDigite 2 se desejar imprimir a base de dados funcionario.");
-    printf("\nDigite 3 se desejar imprimir o √≠ndice prim√°rio da base de funcionarios.");
+    printf("\nDigite 3 se desejar imprimir o Ìndice prim·rio da base de funcionarios.");
 
-    printf("\n\nINTERPOLA√á√ÉO\n");
-    printf("\nDigite 4 para utilizar a estrutura de interpola√ß√£o teste.");
-    printf("\nDigite 5, 6  para gerar partic√µes ordenadas utilizando, respectivamente, os m√©todos: classifica√ß√£o interna ou sele√ß√£o natural.");
-    printf("\nDigite 7 para criar uma pilha com o conte√∫do das parti√ß√µes geradas.");
-    printf("\nDigite 8, 9 para gerar intercalar as parti√ß√µes ordenadas utilizando, respectivamente, os m√©todos: intercala√ß√£o basico, intercalacao arvore de vencedores.");
+    printf("\n\nINTERPOLA«√O\n");
+    printf("\nDigite 4 para utilizar a estrutura de interpolaÁ„o teste.");
+    printf("\nDigite 5, 6  para gerar particıes ordenadas utilizando, respectivamente, os mÈtodos: classificaÁ„o interna ou seleÁ„o natural.");
+    printf("\nDigite 7 para criar uma pilha com o conte˙do das partiÁıes geradas.");
+    printf("\nDigite 8, 9 para gerar intercalar as partiÁıes ordenadas utilizando, respectivamente, os mÈtodos: intercalaÁ„o basico, intercalacao arvore de vencedores.");
 
-    printf("\n\nINSERTION SORT E √ÅRVORE BIN√ÅRIA, ARVORE B\n");
-    printf("\nDigite 10 para criar √°rvores bin√°rias em mem√≥ria interna e externa.");
-    printf("\nDigite 11 para ordenar a base de dados utilizando o m√©todo insertion sort em disco. ");
-    printf("\nDigite 12 para criar √Årvore B+ de prefixo simples. ");
+    printf("\n\nINSERTION SORT E ¡RVORE BIN¡RIA, ARVORE B\n");
+    printf("\nDigite 10 para criar ·rvores bin·rias em memÛria interna e externa.");
+    printf("\nDigite 11 para ordenar a base de dados utilizando o mÈtodo insertion sort em disco. ");
+    printf("\nDigite 12 para criar ¡rvore B+ de prefixo simples. ");
 
     printf("\nDigite -1 para sair: ");
     scanf("%d", &op);
@@ -42,35 +42,35 @@ int menu()
 int main()
 {
 
-    /*criando um arquivo l√≥gico para abir para leitura e escrita o arquivo bin√°rio*/
+    /*criando um arquivo lÛgico para abir para leitura e escrita o arquivo bin·rio*/
     FILE *arq = fopen("base_funcionarios.dat", "wb+");
     if (arq == NULL)
     {
-        printf("Arquivo base_funcionarios.dat n√£o encontrado.\n");
+        printf("Arquivo base_funcionarios.dat n„o encontrado.\n");
         return 1;
     }
 
-    /*criando um arquivo l√≥gico para abir para leitura e escrita do arquivo de indice primario ordenado*/
+    /*criando um arquivo lÛgico para abir para leitura e escrita do arquivo de indice primario ordenado*/
     FILE *arqIndicePrimario = fopen("IndicePrimarioFunc.dat", "wb+");
     if (arqIndicePrimario == NULL)
     {
-        printf("Arquivo IndicePrimarioFunc.dat n√£o encontrado.\n");
+        printf("Arquivo IndicePrimarioFunc.dat n„o encontrado.\n");
         return 1;
     }
 
-    /*criando um arquivo l√≥gico para abir para leitura e escrita do arquivo de indice primario n√£o ordenado*/
+    /*criando um arquivo lÛgico para abir para leitura e escrita do arquivo de indice primario n„o ordenado*/
     FILE *arqIndicePrimarioNaoOrdenado = fopen("IndicePrimarioFuncNaoOrdenado.dat", "wb+");
     if (arqIndicePrimarioNaoOrdenado == NULL)
     {
-        printf("Arquivo IndicePrimarioFuncNaoOrdenado.dat n√£o encontrado.\n");
+        printf("Arquivo IndicePrimarioFuncNaoOrdenado.dat n„o encontrado.\n");
         return 1;
     }
 
-    /*criando um arquivo l√≥gico para abir para leitura e escrita da √°rvore bin√°ria externa*/
+    /*criando um arquivo lÛgico para abir para leitura e escrita da ·rvore bin·ria externa*/
     FILE *arqArvoreBinariaExterna = fopen("ArvoreBinariaExternaFunc.dat", "wb+");
     if (arqArvoreBinariaExterna == NULL)
     {
-        printf("Arquivo ArvoreBinariaExternaFunc.dat n√£o encontrado.\n");
+        printf("Arquivo ArvoreBinariaExternaFunc.dat n„o encontrado.\n");
         return 1;
     }
 
@@ -83,7 +83,7 @@ int main()
     TPilha **vetPilhas;
     int crioubase = 0, crioulistadenomes = 0, criouparticoes = 0, crioupilhas = 0;
 
-    //ponteiro para salvar o in√≠cio da lista de nomes
+    //ponteiro para salvar o inÌcio da lista de nomes
     Lista *prox;
     int *vetTopo;
 
@@ -92,34 +92,34 @@ int main()
         switch (op)
         {
         case (1):
-            //criando a base de dados de funcion√°rios teste e o arquivo de √≠ndice prim√°rio
+            //criando a base de dados de funcion·rios teste e o arquivo de Ìndice prim·rio
             nFunc = 20;
             cria_base_dados_funcionarios_teste(arq, arqIndicePrimario, arqIndicePrimarioNaoOrdenado, nFunc);
             crioubase = 1;
             break;
         case (2):
-            //imprime a base de dados dos funcion√°rios
+            //imprime a base de dados dos funcion·rios
             if (crioubase == 1)
                 imprime_base_dados_funcionarios(arq, nFunc);
             else
-                printf("Base de dados inexistente para ser impressa, crie utilizando a op√ß√£o 1 do menu!!!\n");
+                printf("Base de dados inexistente para ser impressa, crie utilizando a opÁ„o 1 do menu!!!\n");
             break;
         case (3):
-            //imprime o arquivo de √≠ndices prim√°rios
+            //imprime o arquivo de Ìndices prim·rios
             if (crioubase == 1)
             {
                 printf("\nArquivo ordenado\n ch:rrn\n");
                 imprime_indice_primario_funcionarios(arqIndicePrimario, nFunc);
-                printf("\nArquivo n√£o ordenado\n ch:rrn\n");
+                printf("\nArquivo n„o ordenado\n ch:rrn\n");
                 imprime_indice_primario_funcionarios(arqIndicePrimarioNaoOrdenado, nFunc);
             }
             else
-                printf("Indice primario inexistente para ser impresso, ser√° criado ap√≥s a defini√ß√£o da base de dados utilizando a op√ß√£o 1 do menu!!!\n");
+                printf("Indice primario inexistente para ser impresso, ser· criado apÛs a definiÁ„o da base de dados utilizando a opÁ„o 1 do menu!!!\n");
             break;
         case (4):
             nParticoes = 10;
             nElementos = 2;
-            printf("\n\nA estrutura de interpola√ß√£o ser√° composta por 10 arquivos de no m√°ximo 2 elementos.\n");
+            printf("\n\nA estrutura de interpolaÁ„o ser· composta por 10 arquivos de no m·ximo 2 elementos.\n");
             nomes = cria("p1.dat", cria("p2.dat", cria("p3.dat", cria("p4.dat", cria("p5.dat", cria("p6.dat", cria("p7.dat", cria("p8.dat", cria("p9.dat", cria("p10.dat", NULL))))))))));
             crioulistadenomes = 1;
             imprime(nomes);
@@ -127,64 +127,64 @@ int main()
         case (5):
             if (crioulistadenomes)
             {
-                //cria as partic√µes que cont√©m a base de dados de funcion√°rios usando o m√©todo classifica√ß√£o interna
-                printf("\n\nGerando parti√ß√µes, utilizando o m√©todo de classifica√ß√£o interna.\n");
+                //cria as particıes que contÈm a base de dados de funcion·rios usando o mÈtodo classificaÁ„o interna
+                printf("\n\nGerando partiÁıes, utilizando o mÈtodo de classificaÁ„o interna.\n");
                 classificacao_interna(arq, nomes, nElementos, nFunc);
-                //salvando o ponteiro para o in√≠cio da lista de nomes
+                //salvando o ponteiro para o inÌcio da lista de nomes
                 prox = nomes;
                 criouparticoes = 1;
             }
             else
-                printf("Lista de nomes de arquivos inexistente para gerar parti√ß√µes, crie a estrutura de interpola√ß√£o utilizando a op√ß√£o 4 do menu!!!\n");
+                printf("Lista de nomes de arquivos inexistente para gerar partiÁıes, crie a estrutura de interpolaÁ„o utilizando a opÁ„o 4 do menu!!!\n");
             break;
         case (6):
             if (crioulistadenomes)
             {
-                printf("\n\nGerando parti√ß√µes, utilizando o m√©todo selecao natural.\n");
+                printf("\n\nGerando partiÁıes, utilizando o mÈtodo selecao natural.\n");
                 selecao_natural(arq, nomes, nElementos, nFunc, 1, &nParticoes);
-                printf("total de %d parti√ß√µes geradas.\n", nParticoes);
-                //salvando o ponteiro para o in√≠cio da lista de nomes
+                printf("total de %d partiÁıes geradas.\n", nParticoes);
+                //salvando o ponteiro para o inÌcio da lista de nomes
                 prox = nomes;
                 criouparticoes = 1;
             }
             else
-                printf("Lista de nomes de arquivos inexistente para gerar parti√ß√µes, crie a estrutura de interpola√ß√£o utilizando a op√ß√£o  4 do menu!!!\n");
+                printf("Lista de nomes de arquivos inexistente para gerar partiÁıes, crie a estrutura de interpolaÁ„o utilizando a opÁ„o  4 do menu!!!\n");
             break;
         case (7):
             if (criouparticoes)
             {
-                //criando pilha com o conte√∫do das parti√ß√µes geradas
+                //criando pilha com o conte˙do das partiÁıes geradas
                 vetPilhas = (TPilha **)malloc(sizeof(TPilha *) * (nParticoes));
                 vetTopo = (int *)malloc(sizeof(int) * (nParticoes));
                 for (int p = 0; p < nParticoes; p++)
                 {
-                    //alocando a mem√≥ria para salvar uma pilha para cada particao
+                    //alocando a memÛria para salvar uma pilha para cada particao
                     vetPilhas[p] = (TPilha *)malloc(sizeof(TPilha) * (nElementos));
-                    //abrindo primeira parti√ß√£o para leitura
+                    //abrindo primeira partiÁ„o para leitura
                     FILE *part = fopen(nomes->nome, "rb+");
-                    printf("Parti√ß√£o %s \n", nomes->nome);
+                    printf("PartiÁ„o %s \n", nomes->nome);
                     int tamanho = nomes->tamanho == -1 ? nElementos : nomes->tamanho + 1;
                     nomes = nomes->prox;
-                    //imprimindo os funcion√°rios gravados nas parti√ß√µes
+                    //imprimindo os funcion·rios gravados nas partiÁıes
                     imprime_base_dados_funcionarios(part, nElementos);
                     //inicializando os topos das pilhas
                     vetTopo[p] = -1;
-                    //criando pilha atrav√©s da leitura da parti√ß√£o
+                    //criando pilha atravÈs da leitura da partiÁ„o
                     cria_pilha_particao(vetPilhas[p], part, tamanho, &vetTopo[p]);
                     printf("Gerou a pilha");
-                    //fechando a parti√ß√£o
+                    //fechando a partiÁ„o
                     fclose(part);
                 }
                 crioupilhas = 1;
                 nomes = prox;
             }
             else
-                printf("Parti√ß√µes n√£o foram criadas, crie as parti√ß√µes utilizando as op√ß√µes 5 ou 6  do menu!!!\n");
+                printf("PartiÁıes n„o foram criadas, crie as partiÁıes utilizando as opÁıes 5 ou 6  do menu!!!\n");
             break;
         case (8):
             if (criouparticoes)
             {
-                printf("\n\nIntercalando as parti√ß√µes, utilizando o m√©todo de intercala√ß√£o basico.\n");
+                printf("\n\nIntercalando as partiÁıes, utilizando o mÈtodo de intercalaÁ„o basico.\n");
                 intercalacao_basico("arquivo_intercalado.dat", nParticoes, nomes);
                 //imprimindo o arquivo intercalado
                 FILE *fi = fopen("arquivo_intercalado.dat", "rb+");
@@ -192,10 +192,10 @@ int main()
                 fclose(fi);
             }
             else
-                printf("Parti√ß√µes n√£o foram criadas, crie as parti√ß√µes utilizando as op√ß√µes 5 ou 6 do menu!!!\n");
+                printf("PartiÁıes n„o foram criadas, crie as partiÁıes utilizando as opÁıes 5 ou 6 do menu!!!\n");
             break;
         case (9):
-            printf("M√©todo a ser implementado na parte I do trabalho.\n");
+            printf("MÈtodo a ser implementado na parte I do trabalho.\n");
             if (criouparticoes)
             {
                 if (crioupilhas)
@@ -203,10 +203,10 @@ int main()
                     intercalacao_arvore_de_vencedores(vetPilhas, vetTopo, "arquivo_intercalado.dat", nParticoes, nFunc);
                 }
                 else
-                    printf("As pilhas das parti√ß√µes geradas n√£o foram criadas, crie as pilhas utilizando as op√ß√µes 7!!!\n");
+                    printf("As pilhas das partiÁıes geradas n„o foram criadas, crie as pilhas utilizando as opÁıes 7!!!\n");
             }
             else
-                printf("Parti√ß√µes n√£o foram criadas, crie as parti√ß√µes utilizando as op√ß√µes 5 ou 6  do menu!!!\n");
+                printf("PartiÁıes n„o foram criadas, crie as partiÁıes utilizando as opÁıes 5 ou 6  do menu!!!\n");
 
             //imprimindo o arquivo intercalado
             FILE *fi = fopen("arquivo_intercalado.dat", "rb+");
@@ -214,28 +214,28 @@ int main()
             fclose(fi);
             break;
         case (10):
-            //cria √°rvore bin√°ria em mem√≥ria utilizando o arquivo de √≠ndice prim√°rio ordenado
+            //cria ·rvore bin·ria em memÛria utilizando o arquivo de Ìndice prim·rio ordenado
             if (crioubase == 1)
             {
-                printf("\nArvore bin√°ria em mem√≥ria pelo arquivo de  √≠ndice prim√°rio ordenado\n <nopai <noesq><nodireita> >\n");
+                printf("\nArvore bin·ria em memÛria pelo arquivo de  Ìndice prim·rio ordenado\n <nopai <noesq><nodireita> >\n");
                 cria_arvore_binaria_indice_primario(arqIndicePrimario, nFunc);
-                printf("\nArvore bin√°ria em mem√≥ria pelo arquivo de √≠ndice prim√°rio n√£o ordenado\n <nopai <noesq><nodireita> >\n");
+                printf("\nArvore bin·ria em memÛria pelo arquivo de Ìndice prim·rio n„o ordenado\n <nopai <noesq><nodireita> >\n");
                 cria_arvore_binaria_indice_primario(arqIndicePrimarioNaoOrdenado, nFunc);
-                printf("\nArvore bin√°ria externa pelo arquivo de base de dados do funcion√°rio\n <nopai <noesq><nodireita> >\n");
+                printf("\nArvore bin·ria externa pelo arquivo de base de dados do funcion·rio\n <nopai <noesq><nodireita> >\n");
                 criar_arvore_binaria_externa(arq, arqArvoreBinariaExterna);
             }
             else
-                printf("Arquivo de √≠ndice primario inexistente para a cria√ß√£o da arvore binaria, crie utilizando a op√ß√£o 1 do menu!!!\n");
+                printf("Arquivo de Ìndice primario inexistente para a criaÁ„o da arvore binaria, crie utilizando a opÁ„o 1 do menu!!!\n");
             break;
         case (11):
-            //ordenando a base de dados utilizando ordena√ß√£o direta no arquivo com o m√©todo inseriton sort
+            //ordenando a base de dados utilizando ordenaÁ„o direta no arquivo com o mÈtodo inseriton sort
             if (crioubase == 1)
             {
                 insertion_sort_disco(arq, nFunc);
                 imprime_base_dados_funcionarios(arq, nFunc);
-                //procurando por um funcion√°rio na base de dados usando o m√©todo de busca bin√°ria
+                //procurando por um funcion·rio na base de dados usando o mÈtodo de busca bin·ria
                 int busca_codigo;
-                printf("\n\nInforme o codigo do funcion√°rio procurado (digite -1 caso n√£o queira procurar um funcion√°rio): ");
+                printf("\n\nInforme o codigo do funcion·rio procurado (digite -1 caso n„o queira procurar um funcion·rio): ");
                 scanf("%d", &busca_codigo);
                 if (busca_codigo != -1)
                 {
@@ -245,19 +245,19 @@ int main()
                 }
             }
             else
-                printf("Base de dados inexistente para ser ordenada, crie utilizando a op√ß√£o 1 do menu!!!\n");
+                printf("Base de dados inexistente para ser ordenada, crie utilizando a opÁ„o 1 do menu!!!\n");
             break;
         case (12):
-            printf("M√©todo a ser implementado na parte II do trabalho.\n");
+            printf("MÈtodo a ser implementado na parte II do trabalho.\n");
             if (crioubase == 1)
             {
                 ; //criar_arvore_B();
             }
             else
-                printf("Base de dados inexistente para ser ordenada, crie utilizando a op√ß√£o 1 do menu!!!\n");
+                printf("Base de dados inexistente para ser ordenada, crie utilizando a opÁ„o 1 do menu!!!\n");
             break;
         default:
-            printf("\nOp√ß√£o inv√°lida!");
+            printf("\nOpÁ„o inv·lida!");
         }
         op = menu();
     }
