@@ -100,7 +100,10 @@ int main()
         case (2):
             //imprime a base de dados dos funcionários
             if (crioubase == 1)
+            {
+                printf("\n\n    Base de Dados: \n\n");
                 imprime_base_dados_funcionarios(arq, nFunc);
+            }
             else
                 printf("Base de dados inexistente para ser impressa, crie utilizando a opção 1 do menu!!!\n");
             break;
@@ -142,7 +145,7 @@ int main()
             {
                 printf("\n\nGerando partições, utilizando o método selecao natural.\n");
                 selecao_natural(arq, nomes, nElementos, nFunc, 1, &nParticoes);
-                printf("total de %d partições geradas.\n", nParticoes);
+                printf("Total de %d partições geradas.\n", nParticoes);
                 //salvando o ponteiro para o início da lista de nomes
                 prox = nomes;
                 criouparticoes = 1;
@@ -187,6 +190,7 @@ int main()
                 printf("\n\nIntercalando as partições, utilizando o método de intercalação basico.\n");
                 intercalacao_basico("arquivo_intercalado.dat", nParticoes, nomes);
                 //imprimindo o arquivo intercalado
+                printf("\n\n    Base de Dados: \n\n");
                 FILE *fi = fopen("arquivo_intercalado.dat", "rb+");
                 imprime_base_dados_funcionarios(fi, nFunc);
                 fclose(fi);

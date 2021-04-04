@@ -22,7 +22,7 @@ int tamanho_registro()
 
 void imprime_funcionario(TFunc *funcionario)
 {
-    printf("%d, %s, %s, %s, %lf \n", funcionario->cod, funcionario->nome, funcionario->cpf, funcionario->data_nascimento, funcionario->salario);
+    printf("    %d, %s, %s, %s, %lf \n", funcionario->cod, funcionario->nome, funcionario->cpf, funcionario->data_nascimento, funcionario->salario);
 }
 
 void salva_funcionario(TFunc *func, FILE *out)
