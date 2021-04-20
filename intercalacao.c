@@ -108,7 +108,7 @@ void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_a
 {
     FILE *out;
 
-    if ((out = fopen(nome_arquivo_saida, "wb"))) //abre arquivo de saida
+    if ((out = fopen(nome_arquivo_saida, "wb"))) //Abre arquivo de saida
     {
         printf("Intercalação com arvore de vencedores\n");
     }
@@ -122,7 +122,11 @@ void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_a
     TNoA **base = malloc(tamBase * sizeof(TNoA*));
     TFunc **hash = malloc(nFunc * sizeof(TFunc*));
 
-    for (int i = 0; i < nParticoes; i++)    // cria a base da arvore
+    TNoA *vencedor;
+    TNoA **pais = malloc(tamBase * sizeof(TNoA*));
+    TNoA **pais2 = malloc(tamBase * sizeof(TNoA*));
+
+    for (int i = 0; i < nParticoes; i++)    //Cria a base da arvore
     {
         TFunc *func = pop(pilha[i], 0, &vetTop[i]);
         hash[func->cod] = func;
@@ -131,33 +135,28 @@ void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_a
         base[i] = no;
     }
 
-    TNoA *paiPrincipal;
-    TNoA **pais = malloc(tamBase * sizeof(TNoA*));
-    TNoA **pais2 = malloc(tamBase * sizeof(TNoA*));
-
     int loop = 0;
     int contPais = 0;
     int contPais2 = 0;
-    int funcNoArquivo = 0;
+    int contArqSaida = 0;
 
-    // gera a primeira versao da arvore de vencedores
-    while (1) //primeira iteração
+    while(1) //Cria a arvore de vencedores
     {
         TNoA **atual;
         int loopTam;
-        if(loop == 0)   //caso estiver no primeiro loop
+        if(loop == 0)               //Caso estiver no primeiro loop
         {
-            atual = base;    //atual recebe a base da arvore
+            atual = base;           //Atual recebe a base da arvore
             loopTam = tamBase;
         }
-        else            //caso não estiver no primeiro loop
+        else                        //Caso não estiver no primeiro loop
         {
-            atual = pais;    //atual recebe os pais da arvore
+            atual = pais;           //Atual recebe os pais da arvore
             loopTam = contPais;
         }
-        for (int i = 0; i < loopTam; i += 2) //cria os nós na primeira iteração
+        for (int i = 0; i < loopTam; i += 2) //Cria os nós na primeira iteração
         {
-            if (i + 1 == loopTam)   //se chegar no último registro armazena ele em um novo no
+            if (i + 1 == loopTam)   //Se chegar no último registro armazena ele em um novo nó
             {
                 TNoA *no = criaNo_arvore_binaria(atual[i]->info, -1);
                 no->pilha = atual[i]->pilha;
@@ -177,7 +176,7 @@ void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_a
                 continue;
             }
 
-            if (atual[i]->info < atual[i + 1]->info) //cria um nó com o menor
+            if (atual[i]->info < atual[i + 1]->info) //Cria um nó com o menor
             {
                 TNoA *no = criaNo_arvore_binaria(atual[i]->info, -1);
                 no->pilha = atual[i]->pilha;
@@ -217,11 +216,10 @@ void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_a
             }
         }
 
-        // atualiza o vetor de pais
         int aux = loop == 0 ? contPais : contPais2;
         if (aux == 1)
         {
-            paiPrincipal = loop == 0 ? pais[0] : pais2[0];
+            vencedor = loop == 0 ? pais[0] : pais2[0];  //Se for a primeira interação, pais[0] contem o vencedor
             break;
         }
         if (loop == 0)
@@ -229,7 +227,7 @@ void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_a
             loop++;
             continue;
         }
-        for (int j = 0; j < contPais2; j++)
+        for (int j = 0; j < contPais2; j++) //Atualiza o vetor de pais
         {
             pais[j] = pais2[j];
         }
@@ -238,17 +236,17 @@ void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_a
         loop++;
     }
 
-    TNoA *arvore = paiPrincipal;
+    TNoA *arvore = vencedor;
 
     while (arvore->info != INT_MAX)
     {
-        int vencedor = paiPrincipal->info;
-        // DESCE ATÉ A FOLHA DO NÓ VENCEDOR
-        while (arvore->esq != NULL || arvore->dir != NULL)
+        int infoVencedor = vencedor->info;
+
+        while (arvore->esq != NULL || arvore->dir != NULL)  //Percorre a arvore até a folha do vencedor
         {
             if (arvore->esq != NULL)
             {
-                if (arvore->esq->info == vencedor)
+                if (arvore->esq->info == infoVencedor)
                 {
                     arvore = arvore->esq;
                     continue;
@@ -256,7 +254,7 @@ void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_a
             }
             if (arvore->dir != NULL)
             {
-                if (arvore->dir->info == vencedor)
+                if (arvore->dir->info == infoVencedor)
                 {
                     arvore = arvore->dir;
                     continue;
@@ -264,15 +262,14 @@ void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_a
             }
         }
 
-        // salvar funcionario no arquivo
-        TFunc *func = hash[vencedor];
-        fseek(out, funcNoArquivo * tamanho_registro(), SEEK_SET);
-        funcNoArquivo++;
-        salva_funcionario(func, out);
-        int stack = paiPrincipal->pilha;
+        TFunc *func = hash[infoVencedor];
+        fseek(out, contArqSaida * tamanho_registro(), SEEK_SET);
+        contArqSaida++;
+        salva_funcionario(func, out);   //Salvando funcionario no arquivo de saida
+        int pilhaVencedor = vencedor->pilha;
 
-        func = pop(pilha[stack], 0, &vetTop[stack]);
-        // printf("Retirou da pilha o %d\n", func->cod);
+        func = pop(pilha[pilhaVencedor], 0, &vetTop[pilhaVencedor]);
+
         if (func == NULL)
             arvore->info = INT_MAX;
         else
@@ -281,11 +278,9 @@ void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_a
             hash[func->cod] = func;
         }
 
-        // ATUALIZA A ÁRVORE DE VENCEDORES COM O NOVO VALOR E JÁ O COMPARA COM OS VALORES ALI JÁ PRESENTES
-        while (arvore->pai != NULL)
+        while (arvore->pai != NULL) //Atualiza a árvore
         {
             arvore = arvore->pai;
-            int prevValue = arvore->info;
             if (arvore->esq && arvore->dir)
             {
                 if (arvore->esq->info < arvore->dir->info)
@@ -312,7 +307,6 @@ void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_a
                     arvore->pilha = arvore->dir->pilha;
                 }
             }
-
         }
     }
     free(base);
