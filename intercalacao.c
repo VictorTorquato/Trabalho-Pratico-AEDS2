@@ -104,7 +104,219 @@ void intercalacao_basico(char *nome_arquivo_saida, int num_p, Lista *nome_partic
     }
 }
 
-void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_arquivo_saida, int num_p, int nFunc)
+void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_arquivo_saida, int nParticoes, int nFunc)
 {
-    //implementar segunda parte do trabalho
+    FILE *out;
+
+    if ((out = fopen(nome_arquivo_saida, "wb"))) //abre arquivo de saida
+    {
+        printf("Intercalação com arvore de vencedores\n");
+    }
+    else
+    {
+        printf("Erro ao abrir arquivo de saida\n");
+        return;
+    }
+
+    int tamBase = nParticoes;
+    TNoA **base = malloc(tamBase * sizeof(TNoA*));
+    TFunc **hash = malloc(nFunc * sizeof(TFunc*));
+
+    for (int i = 0; i < nParticoes; i++)    // cria a base da arvore
+    {
+        TFunc *func = pop(pilha[i], 0, &vetTop[i]);
+        hash[func->cod] = func;
+        TNoA *no = criaNo_arvore_binaria(func->cod, -1);
+        no->pilha = i;
+        base[i] = no;
+    }
+
+    TNoA *paiPrincipal;
+    TNoA **pais = malloc(tamBase * sizeof(TNoA*));
+    TNoA **pais2 = malloc(tamBase * sizeof(TNoA*));
+
+    int loop = 0;
+    int contPais = 0;
+    int contPais2 = 0;
+    int funcNoArquivo = 0;
+
+    // gera a primeira versao da arvore de vencedores
+    while (1) //primeira iteração
+    {
+        TNoA **atual;
+        int loopTam;
+        if(loop == 0)   //caso estiver no primeiro loop
+        {
+            atual = base;    //atual recebe a base da arvore
+            loopTam = tamBase;
+        }
+        else            //caso não estiver no primeiro loop
+        {
+            atual = pais;    //atual recebe os pais da arvore
+            loopTam = contPais;
+        }
+        for (int i = 0; i < loopTam; i += 2) //cria os nós na primeira iteração
+        {
+            if (i + 1 == loopTam)   //se chegar no último registro armazena ele em um novo no
+            {
+                TNoA *no = criaNo_arvore_binaria(atual[i]->info, -1);
+                no->pilha = atual[i]->pilha;
+                no->esq = atual[i];
+                no->dir = NULL;
+                no->esq->pai = no;
+                if (loop == 0)
+                {
+                    pais[contPais] = no;
+                    contPais++;
+                }
+                else
+                {
+                    pais2[contPais2] = no;
+                    contPais2++;
+                }
+                continue;
+            }
+
+            if (atual[i]->info < atual[i + 1]->info) //cria um nó com o menor
+            {
+                TNoA *no = criaNo_arvore_binaria(atual[i]->info, -1);
+                no->pilha = atual[i]->pilha;
+                no->esq = atual[i];
+                no->dir = atual[i + 1];
+                no->esq->pai = no;
+                no->dir->pai = no;
+                if (loop == 0)
+                {
+                    pais[contPais] = no;
+                    contPais++;
+                }
+                else
+                {
+                    pais2[contPais2] = no;
+                    contPais2++;
+                }
+            }
+            else
+            {
+                TNoA *no = criaNo_arvore_binaria(atual[i + 1]->info, -1);
+                no->pilha = atual[i + 1]->pilha;
+                no->esq = atual[i];
+                no->dir = atual[i + 1];
+                no->esq->pai = no;
+                no->dir->pai = no;
+                if (loop == 0)
+                {
+                    pais[contPais] = no;
+                    contPais++;
+                }
+                else
+                {
+                    pais2[contPais2] = no;
+                    contPais2++;
+                }
+            }
+        }
+
+        // atualiza o vetor de pais
+        int aux = loop == 0 ? contPais : contPais2;
+        if (aux == 1)
+        {
+            paiPrincipal = loop == 0 ? pais[0] : pais2[0];
+            break;
+        }
+        if (loop == 0)
+        {
+            loop++;
+            continue;
+        }
+        for (int j = 0; j < contPais2; j++)
+        {
+            pais[j] = pais2[j];
+        }
+        contPais = contPais2;
+        contPais2 = 0;
+        loop++;
+    }
+
+    TNoA *arvore = paiPrincipal;
+
+    while (arvore->info != INT_MAX)
+    {
+        int vencedor = paiPrincipal->info;
+        // DESCE ATÉ A FOLHA DO NÓ VENCEDOR
+        while (arvore->esq != NULL || arvore->dir != NULL)
+        {
+            if (arvore->esq != NULL)
+            {
+                if (arvore->esq->info == vencedor)
+                {
+                    arvore = arvore->esq;
+                    continue;
+                }
+            }
+            if (arvore->dir != NULL)
+            {
+                if (arvore->dir->info == vencedor)
+                {
+                    arvore = arvore->dir;
+                    continue;
+                }
+            }
+        }
+
+        // salvar funcionario no arquivo
+        TFunc *func = hash[vencedor];
+        fseek(out, funcNoArquivo * tamanho_registro(), SEEK_SET);
+        funcNoArquivo++;
+        salva_funcionario(func, out);
+        int stack = paiPrincipal->pilha;
+
+        func = pop(pilha[stack], 0, &vetTop[stack]);
+        // printf("Retirou da pilha o %d\n", func->cod);
+        if (func == NULL)
+            arvore->info = INT_MAX;
+        else
+        {
+            arvore->info = func->cod;
+            hash[func->cod] = func;
+        }
+
+        // ATUALIZA A ÁRVORE DE VENCEDORES COM O NOVO VALOR E JÁ O COMPARA COM OS VALORES ALI JÁ PRESENTES
+        while (arvore->pai != NULL)
+        {
+            arvore = arvore->pai;
+            int prevValue = arvore->info;
+            if (arvore->esq && arvore->dir)
+            {
+                if (arvore->esq->info < arvore->dir->info)
+                {
+                    arvore->info = arvore->esq->info;
+                    arvore->pilha = arvore->esq->pilha;
+                }
+                else
+                {
+                    arvore->info = arvore->dir->info;
+                    arvore->pilha = arvore->dir->pilha;
+                }
+            }
+            else
+            {
+                if (arvore->esq != NULL)
+                {
+                    arvore->info = arvore->esq->info;
+                    arvore->pilha = arvore->esq->pilha;
+                }
+                else
+                {
+                    arvore->info = arvore->dir->info;
+                    arvore->pilha = arvore->dir->pilha;
+                }
+            }
+
+        }
+    }
+    free(base);
+    free(hash);
+    free(pais);
+    free(pais2);
 }

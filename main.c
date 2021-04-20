@@ -199,7 +199,6 @@ int main()
                 printf("Partições não foram criadas, crie as partições utilizando as opções 5 ou 6 do menu!!!\n");
             break;
         case (9):
-            printf("Método a ser implementado na parte I do trabalho.\n");
             if (criouparticoes)
             {
                 if (crioupilhas)
