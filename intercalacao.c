@@ -110,7 +110,7 @@ void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_a
 
     if ((out = fopen(nome_arquivo_saida, "wb"))) //Abre arquivo de saida
     {
-        printf("Intercalação com arvore de vencedores\n");
+        printf("\n\nIntercalacao com arvore de vencedores\n");
     }
     else
     {
@@ -142,18 +142,9 @@ void intercalacao_arvore_de_vencedores(TPilha **pilha, int *vetTop, char *nome_a
 
     while(1) //Cria a arvore de vencedores
     {
-        TNoA **atual;
-        int loopTam;
-        if(loop == 0)               //Caso estiver no primeiro loop
-        {
-            atual = base;           //Atual recebe a base da arvore
-            loopTam = tamBase;
-        }
-        else                        //Caso não estiver no primeiro loop
-        {
-            atual = pais;           //Atual recebe os pais da arvore
-            loopTam = contPais;
-        }
+        TNoA **atual = loop == 0 ? base : pais;
+        int loopTam = loop == 0 ? tamBase : contPais;
+
         for (int i = 0; i < loopTam; i += 2) //Cria os nós na primeira iteração
         {
             if (i + 1 == loopTam)   //Se chegar no último registro armazena ele em um novo nó

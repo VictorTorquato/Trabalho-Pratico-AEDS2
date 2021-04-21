@@ -5,6 +5,7 @@
 */
 
 #include <stdlib.h>
+//#include <locale.h>
 
 #include "ordenacao_busca.h"
 #include "lista.h"
@@ -15,23 +16,24 @@
 int menu()
 {
     int op;
+    //setlocale(LC_ALL,"");
 
     printf("\n\n**************MENU************** \n\nBASE DE DADOS\n");
 
     printf("\nDigite 1 para utilizar a base de dados funcionario de teste.");
     printf("\nDigite 2 se desejar imprimir a base de dados funcionario.");
-    printf("\nDigite 3 se desejar imprimir o índice primário da base de funcionarios.");
+    printf("\nDigite 3 se desejar imprimir o indice primário da base de funcionarios.");
 
-    printf("\n\nINTERPOLAÇÃO\n");
-    printf("\nDigite 4 para utilizar a estrutura de interpolação teste.");
-    printf("\nDigite 5, 6  para gerar particões ordenadas utilizando, respectivamente, os métodos: classificação interna ou seleção natural.");
-    printf("\nDigite 7 para criar uma pilha com o conteúdo das partições geradas.");
-    printf("\nDigite 8, 9 para gerar intercalar as partições ordenadas utilizando, respectivamente, os métodos: intercalação basico, intercalacao arvore de vencedores.");
+    printf("\n\nINTERPOLACAO\n");
+    printf("\nDigite 4 para utilizar a estrutura de interpolacao teste.");
+    printf("\nDigite 5, 6  para gerar particoes ordenadas utilizando, respectivamente, os metodos: classificacao interna ou selecao natural.");
+    printf("\nDigite 7 para criar uma pilha com o conteudo das particoes geradas.");
+    printf("\nDigite 8, 9 para gerar intercalar as particoes ordenadas utilizando, respectivamente, os metodos: intercalacao basico, intercalacao arvore de vencedores.");
 
-    printf("\n\nINSERTION SORT E ÁRVORE BINÁRIA, ARVORE B\n");
-    printf("\nDigite 10 para criar árvores binárias em memória interna e externa.");
-    printf("\nDigite 11 para ordenar a base de dados utilizando o método insertion sort em disco. ");
-    printf("\nDigite 12 para criar Árvore B+ de prefixo simples. ");
+    printf("\n\nINSERTION SORT E ARVORE BINARIA, ARVORE B\n");
+    printf("\nDigite 10 para criar arvores binarias em memoria interna e externa.");
+    printf("\nDigite 11 para ordenar a base de dados utilizando o metodo insertion sort em disco. ");
+    printf("\nDigite 12 para criar Arvore B+ de prefixo simples. ");
 
     printf("\nDigite -1 para sair: ");
     scanf("%d", &op);
@@ -93,6 +95,7 @@ int main()
         {
         case (1):
             //criando a base de dados de funcionários teste e o arquivo de índice primário
+            system("cls");
             nFunc = 20;
             cria_base_dados_funcionarios_teste(arq, arqIndicePrimario, arqIndicePrimarioNaoOrdenado, nFunc);
             crioubase = 1;
@@ -101,8 +104,10 @@ int main()
             //imprime a base de dados dos funcionários
             if (crioubase == 1)
             {
+                system("cls");
                 printf("\n\n    Base de Dados: \n\n");
                 imprime_base_dados_funcionarios(arq, nFunc);
+                printf("\n");
             }
             else
                 printf("Base de dados inexistente para ser impressa, crie utilizando a opção 1 do menu!!!\n");
@@ -111,6 +116,7 @@ int main()
             //imprime o arquivo de índices primários
             if (crioubase == 1)
             {
+                system("cls");
                 printf("\nArquivo ordenado\n ch:rrn\n");
                 imprime_indice_primario_funcionarios(arqIndicePrimario, nFunc);
                 printf("\nArquivo não ordenado\n ch:rrn\n");
@@ -122,14 +128,17 @@ int main()
         case (4):
             nParticoes = 10;
             nElementos = 2;
+            system("cls");
             printf("\n\nA estrutura de interpolação será composta por 10 arquivos de no máximo 2 elementos.\n");
             nomes = cria("p1.dat", cria("p2.dat", cria("p3.dat", cria("p4.dat", cria("p5.dat", cria("p6.dat", cria("p7.dat", cria("p8.dat", cria("p9.dat", cria("p10.dat", NULL))))))))));
             crioulistadenomes = 1;
             imprime(nomes);
+            printf("\n");
             break;
         case (5):
             if (crioulistadenomes)
             {
+                system("cls");
                 //cria as particões que contém a base de dados de funcionários usando o método classificação interna
                 printf("\n\nGerando partições, utilizando o método de classificação interna.\n");
                 classificacao_interna(arq, nomes, nElementos, nFunc);
@@ -143,6 +152,7 @@ int main()
         case (6):
             if (crioulistadenomes)
             {
+                system("cls");
                 printf("\n\nGerando partições, utilizando o método selecao natural.\n");
                 selecao_natural(arq, nomes, nElementos, nFunc, 1, &nParticoes);
                 printf("Total de %d partições geradas.\n", nParticoes);
@@ -156,6 +166,7 @@ int main()
         case (7):
             if (criouparticoes)
             {
+                system("cls");
                 //criando pilha com o conteúdo das partições geradas
                 vetPilhas = (TPilha **)malloc(sizeof(TPilha *) * (nParticoes));
                 vetTopo = (int *)malloc(sizeof(int) * (nParticoes));
@@ -165,7 +176,7 @@ int main()
                     vetPilhas[p] = (TPilha *)malloc(sizeof(TPilha) * (nElementos));
                     //abrindo primeira partição para leitura
                     FILE *part = fopen(nomes->nome, "rb+");
-                    printf("Partição %s \n", nomes->nome);
+                    printf("Particao %s \n", nomes->nome);
                     int tamanho = nomes->tamanho == -1 ? nElementos : nomes->tamanho + 1;
                     nomes = nomes->prox;
                     //imprimindo os funcionários gravados nas partições
@@ -174,7 +185,7 @@ int main()
                     vetTopo[p] = -1;
                     //criando pilha através da leitura da partição
                     cria_pilha_particao(vetPilhas[p], part, tamanho, &vetTopo[p]);
-                    printf("Gerou a pilha");
+                    printf("Gerou a pilha\n\n***************\n\n");
                     //fechando a partição
                     fclose(part);
                 }
@@ -203,6 +214,7 @@ int main()
             {
                 if (crioupilhas)
                 {
+                    system("cls");
                     intercalacao_arvore_de_vencedores(vetPilhas, vetTopo, "arquivo_intercalado.dat", nParticoes, nFunc);
                 }
                 else
@@ -214,6 +226,7 @@ int main()
             //imprimindo o arquivo intercalado
             FILE *fi = fopen("arquivo_intercalado.dat", "rb+");
             imprime_base_dados_funcionarios(fi, nFunc);
+            printf("\n");
             fclose(fi);
             break;
         case (10):
@@ -254,7 +267,7 @@ int main()
             printf("Método a ser implementado na parte II do trabalho.\n");
             if (crioubase == 1)
             {
-                ; //criar_arvore_B();
+                //criar_arvore_B();
             }
             else
                 printf("Base de dados inexistente para ser ordenada, crie utilizando a opção 1 do menu!!!\n");

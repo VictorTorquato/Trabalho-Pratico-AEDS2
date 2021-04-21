@@ -74,7 +74,7 @@ void imprime_pilha(TPilha *pilha, int *topo)
     printf("\nEstado atual da Pilha:\n");
     for (int i = *topo; i >= 0; i--)
     {
-        printf("posição [%d]: %d\n", i, pilha[i].info->cod);
+        printf("posicao [%d]: %d\n", i, pilha[i].info->cod);
     }
     printf("\n");
 }
